@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Acadêmico - Gestão Escolar</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#f4f7fe] text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <div class="flex flex-1 h-screen overflow-hidden relative">
+
+        <!-- SIDEBAR -->
+        <aside class="w-64 bg-white border-r border-slate-200 flex flex-col justify-between shrink-0 h-full z-20 shadow-sm">
+            <div class="flex flex-col h-full overflow-y-auto">
+                
+                <!-- Logo Header -->
+                <div class="p-6 flex items-center gap-3 border-b border-slate-100 shrink-0">
+                    <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-500/20">
+                        <i class="fa-solid fa-graduation-cap text-xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-slate-900 text-lg leading-tight">Acadêmico</h2>
+                        <span class="text-xs text-slate-500 font-medium">Gestão Escolar</span>
+                    </div>
+                </div>
+
+                <!-- Navigation Items -->
+                <nav class="p-3 space-y-1 my-2 flex-1">
+                    <a href="#" class="sidebar-item active flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-semibold bg-blue-50 text-blue-600">
+                        <i class="fa-solid fa-house text-base w-5 text-center"></i>
+                        <span>Visão Geral</span>
+                    </a>
+                    <a href="#" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-50">
+                        <i class="fa-solid fa-file-lines text-base w-5 text-center"></i>
+                        <span>Gestão Acadêmica</span>
+                    </a>
+                    <a href="#" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-50">
+                        <i class="fa-solid fa-calendar-check text-base w-5 text-center"></i>
+                        <span>Lançamentos</span>
+                    </a>
+                    <a href="#" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-50">
+                        <i class="fa-solid fa-chart-pie text-base w-5 text-center"></i>
+                        <span>Relatórios</span>
+                    </a>
+                    <a href="#" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-50">
+                        <i class="fa-solid fa-comments text-base w-5 text-center"></i>
+                        <span>Comunicação</span>
+                    </a>
+                    <a href="#" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-50">
+                        <i class="fa-solid fa-calendar-days text-base w-5 text-center"></i>
+                        <span>Calendário</span>
+                    </a>
+                    <a href="#" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-50">
+                        <i class="fa-solid fa-wand-magic-sparkles text-base w-5 text-center text-purple-500"></i>
+                        <span>Análise de IA (LLM)</span>
+                    </a>
+                    <a href="#" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-50">
+                        <i class="fa-solid fa-gear text-base w-5 text-center"></i>
+                        <span>Configurações</span>
+                    </a>
+                </nav>
+
+                <!-- ALWAYS VISIBLE SUPPORT CARD AT BOTTOM -->
+                <div class="p-4 shrink-0 border-t border-slate-100 bg-white">
+                    <div class="bg-gradient-to-br from-blue-50 to-indigo-50/60 rounded-2xl p-4 border border-blue-100/80 text-center shadow-xs">
+                        <div class="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center mx-auto mb-2 shadow-sm">
+                            <i class="fa-regular fa-circle-question text-lg"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-sm">Precisa de ajuda?</h4>
+                        <p class="text-xs text-slate-500 mt-0.5 mb-3">Acesse nossa central de suporte técnico.</p>
+                        <button onclick="openSupportModal()" class="w-full py-2 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-semibold shadow-sm transition-colors duration-150">
+                            Abrir Suporte
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="flex-1 flex flex-col h-full overflow-y-auto p-4 sm:p-6 lg:p-8">
+            
+            <!-- HEADER / FILTERS -->
+            <header class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+                <div>
+                    <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Dashboard Acadêmico</h1>
+                    <p class="text-sm font-medium text-slate-500">Visão Geral &amp; Acompanhamento de Turmas</p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-3">
+                    
+                    <!-- Turma Filter -->
+                    <div class="flex flex-col">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Filtro por Turma</span>
+                        <select id="turmaFilter" class="bg-white border border-slate-200 text-slate-700 text-sm rounded-xl px-3.5 py-2 font-medium focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none shadow-xs transition-all cursor-pointer">
+                            <option value="todas">Todas as Turmas (49 Alunos)</option>
+                            <option value="A1">Turma A1 (12 Alunos)</option>
+                            <option value="B2">Turma B2 (15 Alunos)</option>
+                            <option value="C3">Turma C3 (22 Alunos)</option>
+                        </select>
+                    </div>
+
+                    <!-- Período Letivo -->
+                    <div class="flex flex-col">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Período Letivo</span>
+                        <select class="bg-white border border-slate-200 text-slate-700 text-sm rounded-xl px-3.5 py-2 font-medium focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none shadow-xs cursor-pointer">
+                            <option>Ano Letivo: 2026</option>
+                        </select>
+                    </div>
+
+                    <!-- Semestre -->
+                    <div class="flex flex-col">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Semestre</span>
+                        <select class="bg-white border border-slate-200 text-slate-700 text-sm rounded-xl px-3.5 py-2 font-medium focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none shadow-xs cursor-pointer">
+                            <option>1º Semestre</option>
+                            <option>2º Semestre</option>
+                        </select>
+                    </div>
+
+                    <!-- USER PROFILE / ACCOUNT MENU DROPDOWN -->
+                    <div class="relative ml-2 self-end">
+                        <button id="userProfileBtn" class="w-10 h-10 rounded-full bg-blue-600 text-white font-bold text-sm flex items-center justify-center hover:ring-4 hover:ring-blue-100 transition-all shadow-sm focus:outline-none" title="Minha Conta">
+                            A
+                        </button>
+
+                        <!-- Dropdown Menu -->
+                        <div id="userMenu" class="hidden absolute right-0 mt-2 w-56 bg-white border border-slate-200 rounded-2xl shadow-xl z-50 overflow-hidden menu-animate">
+                            <div class="p-3.5 border-b border-slate-100 bg-slate-50/70">
+                                <p class="font-bold text-sm text-slate-800">Prof. Alexander Davis</p>
+                                <p class="text-xs text-slate-500 truncate">coordenacao@escola.edu.br</p>
+                            </div>
+                            <div class="p-1.5 space-y-0.5">
+                                <button onclick="openProfileModal()" class="w-full flex items-center gap-2.5 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-colors text-left">
+                                    <i class="fa-regular fa-user text-base w-4 text-center"></i>
+                                    <span>Meu Perfil</span>
+                                </button>
+                                <button onclick="openProfileModal()" class="w-full flex items-center gap-2.5 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-colors text-left">
+                                    <i class="fa-solid fa-sliders text-base w-4 text-center"></i>
+                                    <span>Preferências</span>
+                                </button>
+                            </div>
+                            <div class="p-1.5 border-t border-slate-100">
+                                <button onclick="confirmLogout()" class="w-full flex items-center gap-2.5 px-3 py-2 text-sm font-medium text-rose-600 hover:bg-rose-50 rounded-xl transition-colors text-left">
+                                    <i class="fa-solid fa-right-from-bracket text-base w-4 text-center"></i>
+                                    <span>Sair da Conta</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </header>
+
+            <!-- STATS CARDS GRID -->
+            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                
+                <!-- Card 1: Ativos -->
+                <div class="stat-card bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex items-center justify-between">
+                    <div>
+                        <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">TOTAL DE ALUNOS ATIVOS</span>
+                        <h2 id="cardAtivos" class="text-3xl font-extrabold text-slate-900 mt-1 mb-1">42</h2>
+                        <span class="text-xs font-semibold text-blue-600 flex items-center gap-1">
+                            <i class="fa-solid fa-user-check"></i> <span id="cardAtivosSub">Frequência Regular</span>
+                        </span>
+                    </div>
+                    <div class="stat-icon w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                </div>
+
+                <!-- Card 2: Frequencia Media -->
+                <div class="stat-card bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex items-center justify-between">
+                    <div>
+                        <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">MÉDIA DE FREQUÊNCIA</span>
+                        <h2 id="cardFreqMedia" class="text-3xl font-extrabold text-slate-900 mt-1 mb-1">88.5%</h2>
+                        <span class="text-xs font-semibold text-emerald-600 flex items-center gap-1">
+                            <i class="fa-solid fa-chart-line"></i> <span>Média Global</span>
+                        </span>
+                    </div>
+                    <div class="stat-icon w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-circle-notch"></i>
+                    </div>
+                </div>
+
+                <!-- Card 3: Ausentes / Risco -->
+                <div class="stat-card bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex items-center justify-between">
+                    <div>
+                        <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">ALUNOS EM RISCO / AUSENTES</span>
+                        <h2 id="cardAusentes" class="text-3xl font-extrabold text-rose-600 mt-1 mb-1">5</h2>
+                        <span class="text-xs font-semibold text-rose-600 flex items-center gap-1">
+                            <i class="fa-solid fa-triangle-exclamation"></i> <span>Freq. &lt; 75% ou Inativo</span>
+                        </span>
+                    </div>
+                    <div class="stat-icon w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                </div>
+
+                <!-- Card 4: Turmas Ativas -->
+                <div class="stat-card bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex items-center justify-between">
+                    <div>
+                        <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">TURMAS SELECIONADAS</span>
+                        <h2 id="cardTurmasCount" class="text-3xl font-extrabold text-slate-900 mt-1 mb-1">3</h2>
+                        <span class="text-xs font-semibold text-purple-600 flex items-center gap-1">
+                            <i class="fa-solid fa-layer-group"></i> <span id="cardTurmasSub">A1, B2 e C3</span>
+                        </span>
+                    </div>
+                    <div class="stat-icon w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- CHARTS SECTION -->
+            <section class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                
+                <!-- Bar Chart: Desempenho por Disciplina -->
+                <div class="lg:col-span-2 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">DESEMPENHO POR DISCIPLINA (MÉDIA DE NOTAS)</h3>
+                            <p class="text-xs text-slate-500">Média das avaliações do semestre atual</p>
+                        </div>
+                        <span id="chartTagBadge" class="px-2.5 py-1 bg-blue-50 text-blue-600 font-semibold text-xs rounded-full">
+                            Todas as Turmas
+                        </span>
+                    </div>
+                    <div class="h-64 relative">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Doughnut Chart: Distribuição de Frequência -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col justify-between">
+                    <div class="mb-2">
+                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">DISTRIBUIÇÃO DE FREQUÊNCIA</h3>
+                        <p class="text-xs text-slate-500">Classificação de assiduidade dos alunos</p>
+                    </div>
+                    <div class="h-56 relative flex items-center justify-center my-auto">
+                        <canvas id="doughnutChart"></canvas>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- ALL STUDENTS TABLE CARD -->
+            <section class="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden flex flex-col mb-6">
+                
+                <!-- Table Top Toolbar -->
+                <div class="p-5 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 class="text-base font-bold text-slate-900">LISTAGEM DE ALUNOS</h3>
+                            <span id="tableBadgeCount" class="px-2.5 py-0.5 bg-blue-100 text-blue-700 font-bold text-xs rounded-full">
+                                49 Alunos
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-500">Exibindo todos os alunos cadastrados nas turmas A1 (12), B2 (15) e C3 (22)</p>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <!-- Search Box -->
+                        <div class="relative">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                            <input type="text" id="searchInput" placeholder="Buscar aluno..." class="pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none w-48 sm:w-64 transition-all">
+                        </div>
+
+                        <!-- Status Filter -->
+                        <select id="statusFilter" class="bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-xl px-3 py-2 font-medium focus:ring-2 focus:ring-blue-500 outline-none cursor-pointer">
+                            <option value="todos">Todos os Status</option>
+                            <option value="Ativo">Ativos</option>
+                            <option value="Atenção">Em Atenção</option>
+                            <option value="Ausente">Ausentes / Risco</option>
+                            <option value="Inativo">Inativos</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Table Content -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50/70 border-b border-slate-100 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                                <th class="py-3.5 px-5">Nome do Aluno</th>
+                                <th class="py-3.5 px-4">Turma</th>
+                                <th class="py-3.5 px-4">Média Geral</th>
+                                <th class="py-3.5 px-4">Frequência</th>
+                                <th class="py-3.5 px-4">Status</th>
+                                <th class="py-3.5 px-5 text-right">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="alunosTableBody" class="divide-y divide-slate-100 text-sm">
+                            <!-- Populated via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Table Footer / Pagination Info -->
+                <div class="p-4 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                    <span id="showingCountText">Exibindo todos os 49 alunos</span>
+                    <span class="font-medium text-slate-600"><i class="fa-solid fa-check-double text-blue-600 mr-1"></i> Base de dados sincronizada</span>
+                </div>
+
+            </section>
+
+        </main>
+    </div>
+
+    <!-- MODAL: PARECER IA -->
+    <div id="parecerModal" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 modal-animate relative">
+            <button onclick="closeParecerModal()" class="absolute right-5 top-5 text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full flex items-center justify-center hover:bg-slate-100 transition-colors">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-lg">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg text-slate-900">Parecer Pedagógico de IA</h3>
+                    <p class="text-xs text-slate-500">Análise gerada automaticamente pelo modelo LLM</p>
+                </div>
+            </div>
+
+            <div class="bg-purple-50/60 rounded-2xl p-4 border border-purple-100/80 mb-5">
+                <div class="flex justify-between items-start mb-2">
+                    <span class="font-extrabold text-slate-900 text-sm" id="modalAlunoNome">Nome do Aluno</span>
+                    <span class="px-2.5 py-0.5 bg-purple-200/70 text-purple-800 text-xs font-bold rounded-full" id="modalAlunoTurma">Turma</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-xs text-slate-600 mt-2 pt-2 border-t border-purple-100">
+                    <div>Média das Notas: <strong id="modalAlunoNota" class="text-slate-900">0.0</strong></div>
+                    <div>Frequência: <strong id="modalAlunoFreq" class="text-slate-900">0%</strong></div>
+                </div>
+            </div>
+
+            <div class="space-y-3 text-sm text-slate-600 mb-6 leading-relaxed">
+                <p id="modalParecerTexto" class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                    Carregando análise...
+                </p>
+            </div>
+
+            <div class="flex justify-end gap-2">
+                <button onclick="closeParecerModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl transition-colors">
+                    Fechar
+                </button>
+                <button onclick="copyParecer()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs rounded-xl shadow-xs transition-colors flex items-center gap-2">
+                    <i class="fa-regular fa-copy"></i> Copiar Relatório
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: SUPORTE -->
+    <div id="supportModal" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 modal-animate relative">
+            <button onclick="closeSupportModal()" class="absolute right-5 top-5 text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full flex items-center justify-center hover:bg-slate-100 transition-colors">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="text-center mb-5">
+                <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl mx-auto mb-3">
+                    <i class="fa-solid fa-headset"></i>
+                </div>
+                <h3 class="font-bold text-lg text-slate-900">Central de Suporte</h3>
+                <p class="text-xs text-slate-500">Envie uma mensagem para a nossa equipe técnica</p>
+            </div>
+
+            <div class="space-y-3 mb-5">
+                <div>
+                    <label class="text-xs font-bold text-slate-600">Assunto</label>
+                    <input type="text" placeholder="Ex: Dúvida sobre fechamento de notas" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-600">Mensagem</label>
+                    <textarea rows="3" placeholder="Descreva sua solicitação..." class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                </div>
+            </div>
+
+            <button onclick="sendSupportMsg()" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs rounded-xl shadow-xs transition-colors">
+                Enviar Chamado
+            </button>
+        </div>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
